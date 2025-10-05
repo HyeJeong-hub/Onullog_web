@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'Cooper Black';
-  src: url('font/cooper-black.ttf') format('truetype');
+  src: url('font/cooper-black.TTF') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: '배찌체';
-  src: url('font/Bazzi.ttf') format('truetype');
+  src: url('font/Bazzi.TTF') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
