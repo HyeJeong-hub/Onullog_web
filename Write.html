@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>오늘의 일기</title>
+    <link rel="icon" href="Favicon.png" type="image/png">
+    <link rel="stylesheet" href="style_write.css">
+</head>
+<body>
+<div class="main_container">
+    <div class="main-area">
+        <div class="date" id="selected-date"></div>
+        <div class="todayHead">Onul ?</div>
+        <div class="todayIcon">
+            <div class="weather">
+                <div class="icons" id="weatherIcons">
+                    <img src="https://img.icons8.com/emoji/48/sun-emoji.png" data-type="sun">
+                    <img src="https://img.icons8.com/emoji/48/cloud-emoji.png" data-type="cloud">
+                    <img src="https://img.icons8.com/emoji/48/cloud-with-rain-emoji.png" data-type="rain">
+                    <img src="https://img.icons8.com/emoji/48/snowflake-emoji.png" data-type="snow">
+                </div>
+            </div>
+            <div class="mood">
+                <div class="icons" id="moodIcons">
+                    <img src="https://img.icons8.com/emoji/48/smiling-face.png" data-type="happy">
+                    <img src="https://img.icons8.com/emoji/48/neutral-face.png" data-type="neutral">
+                    <img src="https://img.icons8.com/emoji/48/sad-but-relieved-face.png" data-type="sad">
+                </div>
+            </div>
+        </div>
+        <div id="diaryCanvas" id="capture-area"></div>
+        <div class="input-area">
+            <textarea id="oneLineInput" placeholder="오늘의 한 줄 일기 작성"></textarea>
+            <button class="put-btn" onclick="addTextToCanvas()">put</button>
+            <button class="save-data-btn" onclick="saveDiaryData()">save</button>
+            <button class="backplanner" onclick="location.href='planner.html'">Planner</button>
+        </div>
+    </div>
+</div>
+<div class="preview-area">
+    <div class="sticker-panel">
+        <h3>sticker</h3>
+        <h6>감정</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/smiling-face.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/pouting-face.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/crying-face.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/smiling-face-with-heart-eyes.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/sleeping-face.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/face-with-thermometer.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>날씨</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/sun-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/cloud-with-rain-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/snowflake-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/sun-behind-small-cloud.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/tornado-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/rainbow-emoji.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>음식</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/sandwich-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/spaghetti-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/shortcake.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/hot-beverage.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/birthday-cake-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/strawberry-emoji.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>일상</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/video-game.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/headphone-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/person-in-bed.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/books-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/guitar-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/person-in-lotus-position.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>계절</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/cherry-blossom.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/-emoji-jack-o-lantern.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/-emoji-christmas-tree.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/scarf-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/beach-with-umbrella.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/maple-leaf-emoji.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>동물</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/guide-dog--v1.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/cat-face.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/teddy-bear-.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/hamster-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/pig-nose-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/otter-emoji.png" onclick="addSticker(this.src)">
+        </div>
+        <h6>장식</h6>
+        <div class="stk">
+            <img src="https://img.icons8.com/emoji/96/star-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/red-heart.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/-emoji-ribbon.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/bouquet-emoji.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/four-leaf-clover.png" onclick="addSticker(this.src)">
+            <img src="https://img.icons8.com/emoji/96/-emoji-heart-balloon.png" onclick="addSticker(this.src)">
+        </div>
+    </div>
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const selectedDate = localStorage.getItem("selectedDate");
+  if (!selectedDate) {
+    document.getElementById("selected-date").innerText = "날짜가 선택되지 않았습니다.";
+    return;
+  }
+
+  const [month, day] = selectedDate.split('-').map(Number);
+  const dateObj = new Date(2025, month - 1, day);
+  const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const dayOfWeek = dayNames[dateObj.getDay()];
+  const formattedDate = `2025.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}.${dayOfWeek}`;
+  document.getElementById("selected-date").innerText = formattedDate;
+
+  loadDiaryEntry(); // ✅ 해당 날짜의 다이어리 데이터 불러오기
+});
+
+
+// ✅ 저장 여부 플래그
+let isSaved = false;
+
+// ✅ 저장 함수
+function saveDiaryData() {
+  const selectedDate = localStorage.getItem("selectedDate");
+  if (!selectedDate) return alert("날짜가 선택되지 않았습니다.");
+
+  const [month, day] = selectedDate.split(" - ").map(str => str.trim());
+  const formattedMonth = String(month).padStart(2, '0');
+  const formattedDay = String(day).padStart(2, '0');
+  const key = `memo_2025-${formattedMonth}-${formattedDay}`; // 날짜별 저장 키
+
+  const selectedWeather = document.querySelector("#weatherIcons img.selected");
+  const weather = selectedWeather ? selectedWeather.getAttribute("data-type") : null;
+
+  const selectedMood = document.querySelector("#moodIcons img.selected");
+  const mood = selectedMood ? selectedMood.getAttribute("data-type") : null;
+
+  const memo = document.getElementById("oneLineInput").value;
+
+  const noteElements = document.querySelectorAll("#diaryCanvas .note-text");
+  const notes = Array.from(noteElements).map(note => ({
+    text: note.textContent,
+    left: note.style.left || "50px",
+    top: note.style.top || "50px"
+  }));
+
+  const stickerElements = document.querySelectorAll("#diaryCanvas .sticker");
+  const stickers = Array.from(stickerElements).map(sticker => ({
+    src: sticker.src,
+    left: sticker.style.left || "40px",
+    top: sticker.style.top || "40px",
+    width: sticker.style.width || "",
+    height: sticker.style.height || ""
+  }));
+
+  const diaryEntry = {
+    weather,
+    mood,
+    memo,
+    notes,
+    stickers,
+    timestamp: new Date().toLocaleString()
+  };
+
+  localStorage.setItem(key, JSON.stringify(diaryEntry));
+  isSaved = true;
+  alert("일기가 저장되었습니다.");
+}
+
+// ✅ 불러오기
+function loadDiaryEntry() {
+  const selectedDate = localStorage.getItem("selectedDate");
+  if (!selectedDate) return;
+
+  const [month, day] = selectedDate.split(" - ").map(str => str.trim());
+  const formattedMonth = String(month).padStart(2, '0');
+  const formattedDay = String(day).padStart(2, '0');
+  const key = `memo_2025-${formattedMonth}-${formattedDay}`;
+
+  const data = JSON.parse(localStorage.getItem(key));
+  if (!data) return;
+
+  document.getElementById("oneLineInput").value = data.memo || "";
+
+  const canvas = document.getElementById("diaryCanvas");
+  canvas.innerHTML = "";
+
+  // 날씨 복원
+  if (data.weather) {
+    document.querySelectorAll("#weatherIcons img").forEach(img => {
+      img.classList.remove("selected");
+      if (img.getAttribute("data-type") === data.weather) {
+        img.classList.add("selected");
+      }
+    });
+  }
+
+  // 감정 복원
+  if (data.mood) {
+    document.querySelectorAll("#moodIcons img").forEach(img => {
+      img.classList.remove("selected");
+      if (img.getAttribute("data-type") === data.mood) {
+        img.classList.add("selected");
+      }
+    });
+  }
+
+  // 텍스트 복원
+  if (data.notes) {
+    data.notes.forEach(note => {
+      const div = document.createElement("div");
+      div.className = "note-text";
+      div.textContent = note.text;
+      div.style.position = "absolute";
+      div.style.left = note.left;
+      div.style.top = note.top;
+      div.style.transform = "translate(-50%, -50%)";
+      makeDraggable(div);
+      canvas.appendChild(div);
+    });
+  }
+
+  // 스티커 복원
+  if (data.stickers) {
+    data.stickers.forEach(sticker => {
+      const img = document.createElement("img");
+      img.className = "sticker";
+      img.src = sticker.src;
+      img.style.position = "absolute";
+      img.style.left = sticker.left;
+      img.style.top = sticker.top;
+      img.style.width = sticker.width;
+      img.style.height = sticker.height;
+      makeDraggable(img);
+      makeResizable(img);
+      canvas.appendChild(img);
+    });
+  }
+}
+
+// ✅ 텍스트 추가
+function addTextToCanvas() {
+  const text = document.getElementById("oneLineInput").value.trim();
+  if (!text) return;
+  const div = document.createElement("div");
+  div.textContent = text;
+  div.className = "note-text";
+  div.style.left = "50%";
+  div.style.top = "50%";
+  div.style.transform = "translate(-50%, -50%)";
+  makeDraggable(div);
+  document.getElementById("diaryCanvas").appendChild(div);
+}
+
+// ✅ 스티커 추가
+function addSticker(src) {
+  const canvas = document.getElementById("diaryCanvas");
+  const img = document.createElement("img");
+  img.src = src;
+  img.className = "sticker";
+  img.style.position = "absolute";
+  img.style.left = "40px";
+  img.style.top = "40px";
+  makeDraggable(img);
+  makeResizable(img);
+  canvas.appendChild(img);
+}
+
+// ✅ 드래그
+function makeDraggable(el) {
+  el.tabIndex = 0;
+  el.style.position = "absolute";
+  el.addEventListener("keydown", e => {
+    const step = 5;
+    let top = parseInt(el.style.top) || 0;
+    let left = parseInt(el.style.left) || 0;
+    if (e.key === "ArrowUp") el.style.top = (top - step) + "px";
+    else if (e.key === "ArrowDown") el.style.top = (top + step) + "px";
+    else if (e.key === "ArrowLeft") el.style.left = (left - step) + "px";
+    else if (e.key === "ArrowRight") el.style.left = (left + step) + "px";
+  });
+}
+
+// ✅ 크기 조절
+function makeResizable(el) {
+  el.style.resize = "both";
+  el.style.overflow = "auto";
+}
+
+// ✅ 아이콘 선택 처리
+document.querySelectorAll('.icons').forEach(group => {
+  group.addEventListener('click', e => {
+    if (e.target.tagName === 'IMG') {
+      group.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
+      e.target.classList.add('selected');
+    }
+  });
+});
+
+  function selectIcon(containerId, type) {
+    const icons = document.getElementById(containerId)?.querySelectorAll("img");
+    if (!icons) return;
+    icons.forEach(icon => {
+      if (icon.dataset.type === type) {
+        icon.classList.add("selected");
+      } else {
+        icon.classList.remove("selected");
+      }
+    });
+  }
+
+
+//write에서 불러오기
+window.addEventListener("DOMContentLoaded", () => {
+  const key = localStorage.getItem("editKey");
+  if (key) {
+    const saved = JSON.parse(localStorage.getItem(key));
+    if (saved) {
+      
+      // 감정, 날씨 선택도 복원
+      selectIcon("moodIcons", saved.mood);
+      selectIcon("weatherIcons", saved.weather);
+      // 스티커와 기타요소는 필요 시 복원
+    }
+  }
+});
+
+// ✅ 저장 전 경고
+window.addEventListener("beforeunload", function (event) {
+  if (!isSaved) {
+    event.returnValue = "변경사항이 저장되지 않을 수 있습니다.";
+  }
+});
+</script>
+
+</body>
+</html>

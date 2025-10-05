@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+  <link rel="icon" href="Favicon.png" type="image/png">
+  <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+  <header>
+    <a href="Main.html" class="logo">
+      <img src="home.png" class="home-link">
+  </a>
+  </header>
+  <main class="main-wrapper">
+    <h2>Onullog</h2>
+    <div class="login-box">
+      <label for="name">&nbsp;이름&nbsp;</label>
+      <input type="text" id="name" name="name" placeholder="이름을 입력하세요">
+    </div>
+    <div class="login-box" style="margin-top: 15px;">
+      <label for="id">아이디</label>
+      <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">
+    </div>
+    <div class="login-box" style="margin-top: 15px;">
+      <label for="email">이메일</label>
+      <input type="text" id="email" name="email" placeholder="이메일을 입력하세요">
+    </div>
+    <button id="loginBtn" style="margin-top: 30px;">Join!</button>
+  </main>
+</body>
+<script>
+  document.getElementById('loginBtn').addEventListener('click', function () {
+    const name = document.getElementById('name').value.trim();
+    const id = document.getElementById('id').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!name || !id || !email) {
+      alert('모든 항목을 입력해주세요.');
+      return;
+    }
+
+    // 이미 존재하는 아이디인지 확인
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    if (users[id]) {
+      alert('이미 존재하는 아이디입니다.');
+      return;
+    }
+
+    // 사용자 정보 저장
+    // 사용자 정보 저장
+    users[id] = { name, email };
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('isLoggedIn', 'true');  // ✅ 로그인 상태 저장
+    localStorage.setItem('loggedInId', id);      // ✅ 로그인한 사용자 ID 저장
+    alert('회원가입이 완료되었습니다!');
+    window.location.href = 'Planner.html';
+
+  });
+</script>
+</html>

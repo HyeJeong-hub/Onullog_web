@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>플래너</title>
+  <link rel="icon" href="Favicon.png" type="image/png">
+  <link rel="stylesheet" href="style_planner.css">
+</head>
+<body>
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <a href="Main.html" class="home-link">Onullog</a>
+      <span id="prev" style="font-size: 18px;">◀&nbsp;</span>
+      <span id="month-year">2025년 6월</span>
+      <span id="next" style="font-size: 18px;">&nbsp;▶</span>
+    </div>
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th>SUN</th><th>MON</th><th>TUE</th><th>WED</th>
+          <th>THU</th><th>FRI</th><th>SAT</th>
+        </tr>
+      </thead>
+      <tbody id="calendar-body"></tbody>
+    </table>
+  </div>
+  <div class="preview-area">
+    <h3><span id="preview-date">-</span></h3>
+    <div class="icons">
+      <span class="star-icon">⭐</span>
+      <span class="weather-icon"></span>
+      <span class="mood-icon"></span>
+    </div>
+    <div class="preview-box" data-date="2025-06-14" id="preview-content">&nbsp;여기에 메모 미리보기가 표시됩니다.</div>
+    <p id="last-time">마지막 저장 시간: 없음</p>
+    <div class="button-group">
+      <button onclick="goToWritePage()">&nbsp;Edit&nbsp;</button>
+      <button id="deleteBtn">&nbsp;Delete&nbsp;</button>
+    </div>
+    <div class="user-greeting"></div> 
+    <div class="profile-icon"></div>
+    <div class="logout">로그아웃</div>
+  </div>
+<script>
+let currentYear = 2025;
+let currentMonth = 5;
+
+function renderCalendar(year, month) {
+  const memoDates = getMemoDates(year);
+  const tbody = document.getElementById("calendar-body");
+  tbody.innerHTML = "";
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+  let date = 1;
+  let done = false;
+
+  while (!done) {
+    const row = document.createElement("tr");
+    for (let i = 0; i < 7; i++) {
+      const cell = document.createElement("td");
+      if (date === 1 && i < firstDay) {
+        cell.innerHTML = "";
+      } else if (date > lastDate) {
+        cell.innerHTML = "";
+        done = true;
+      } else {
+        cell.innerHTML = `<small>${date}</small>`;
+        cell.setAttribute("data-date", date);
+        cell.style.cursor = "pointer";
+
+        const formattedMonth = String(month + 1).padStart(2, '0');
+        const formattedDate = String(date).padStart(2, '0');
+        const dateKey = `${formattedMonth}-${formattedDate}`;
+
+        if (memoDates.has(dateKey)) {
+          cell.classList.add('has-memo');
+        }
+
+        const currentDate = date;
+        cell.addEventListener("click", () => {
+          const selected = `${month + 1} - ${currentDate}`;
+          localStorage.setItem("selectedDate", selected);
+          updatePreview();
+          loadWeatherAndMoodIcons(month + 1, currentDate);
+        });
+        date++;
+      }
+      row.appendChild(cell);
+    }
+    tbody.appendChild(row);
+  }
+  document.getElementById("month-year").innerText = `${year}년 ${month + 1}월`;
+}
+
+function getMemoDates(year = currentYear) {
+  const keys = Object.keys(localStorage);
+  const memoDates = new Set();
+  const yearStr = String(year);
+  keys.forEach(key => {
+    if (key.startsWith(`memo_${yearStr}-`)) {
+      const datePart = key.slice(`memo_${yearStr}-`.length);
+      memoDates.add(datePart);
+    }
+  });
+  return memoDates;
+}
+
+document.getElementById("prev").addEventListener("click", () => {
+  currentMonth--;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  }
+  renderCalendar(currentYear, currentMonth);
+});
+
+document.getElementById("next").addEventListener("click", () => {
+  currentMonth++;
+  if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+  renderCalendar(currentYear, currentMonth);
+});
+
+renderCalendar(currentYear, currentMonth);
+
+const month = new Date().getMonth();
+const currentDate = new Date().getDate();
+localStorage.setItem("selectedDate", `${month + 1} - ${currentDate}`);
+
+function updatePreview() {
+  const selectedDate = localStorage.getItem("selectedDate");
+  const previewDateEl = document.getElementById("preview-date");
+  const previewContentEl = document.getElementById("preview-content");
+  const lastTimeEl = document.getElementById("last-time");
+
+  if (!selectedDate) {
+    previewDateEl.textContent = "-";
+    previewContentEl.textContent = "여기에 메모 미리보기가 표시됩니다.";
+    lastTimeEl.textContent = "마지막 저장 시간: 없음";
+    return;
+  }
+
+  const [month, day] = selectedDate.split(" - ").map(str => str.trim());
+  const formattedMonth = String(month).padStart(2, '0');
+  const formattedDay = String(day).padStart(2, '0');
+  const dateKey = `2025-${formattedMonth}-${formattedDay}`;
+
+  previewDateEl.textContent = `${month}/${day}`;
+  const data = JSON.parse(localStorage.getItem("memo_" + dateKey)); 
+  if (data && data.memo && data.memo.trim() !== "") {
+    previewContentEl.textContent = data.memo;
+  } else {
+    previewContentEl.textContent = "여기에 메모 미리보기가 표시됩니다.";
+  }
+
+  if (data && data.timestamp) {
+    lastTimeEl.textContent = `마지막 저장 시간: ${data.timestamp}`;
+  } else {
+    lastTimeEl.textContent = "마지막 저장 시간: 없음";
+  }
+
+  loadWeatherAndMoodIcons(month, day);
+}
+
+function loadWeatherAndMoodIcons(month, day) {
+  const key = `memo_2025-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const data = JSON.parse(localStorage.getItem(key));
+
+  const weatherIconSpan = document.querySelector(".weather-icon");
+  const moodIconSpan = document.querySelector(".mood-icon");
+  weatherIconSpan.innerHTML = "";
+  moodIconSpan.innerHTML = "";
+
+  if (!data) return;
+
+  const weatherIcons = {
+    sun: "https://img.icons8.com/emoji/48/sun-emoji.png",
+    cloud: "https://img.icons8.com/emoji/48/cloud-emoji.png",
+    rain: "https://img.icons8.com/emoji/48/cloud-with-rain-emoji.png",
+    snow: "https://img.icons8.com/emoji/48/snowflake-emoji.png"
+  };
+  const moodIcons = {
+    happy: "https://img.icons8.com/emoji/48/smiling-face.png",
+    neutral: "https://img.icons8.com/emoji/48/neutral-face.png",
+    sad: "https://img.icons8.com/emoji/48/sad-but-relieved-face.png"
+  };
+
+  if (data.weather && weatherIcons[data.weather]) {
+    const weatherImg = document.createElement("img");
+    weatherImg.src = weatherIcons[data.weather];
+    weatherImg.alt = data.weather;
+    weatherIconSpan.appendChild(weatherImg);
+  }
+  if (data.mood && moodIcons[data.mood]) {
+    const moodImg = document.createElement("img");
+    moodImg.src = moodIcons[data.mood];
+    moodImg.alt = data.mood;
+    moodIconSpan.appendChild(moodImg);
+  }
+}
+
+// 즐겨찾기 기능
+const star = document.querySelector('.star-icon');
+star.classList.add('unstarred');
+star.addEventListener('click', () => {
+  star.classList.toggle('starred');
+  star.classList.toggle('unstarred');
+});
+
+// 메모 삭제 기능
+function getFormattedDateForKey() {
+  const previewDate = document.getElementById("preview-date").innerText;
+  const [month, day] = previewDate.split("/");
+  const formattedMonth = String(month).padStart(2, '0');
+  const formattedDay = String(day).padStart(2, '0');
+  return `memo_2025-${formattedMonth}-${formattedDay}`;
+}
+
+document.getElementById("deleteBtn").addEventListener("click", () => {
+  const key = getFormattedDateForKey();
+  if (localStorage.getItem(key)) {
+    const confirmDelete = confirm("정말 삭제하시겠습니까?");
+    if (confirmDelete) {
+      localStorage.removeItem(key);
+      alert("메모가 삭제되었습니다.");
+      updatePreview();
+      renderCalendar(currentYear, currentMonth);
+      document.getElementById("preview-content").innerText = "여기에 메모 미리보기가 표시됩니다.";
+      document.getElementById("last-time").innerText = "마지막 저장 시간: 없음";
+    }
+  } else {
+    alert("삭제할 메모가 없습니다.");
+  }
+});
+
+// 유저 이름 표시 및 로그아웃 기능
+window.addEventListener('DOMContentLoaded', () => {
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
+  const currentId = localStorage.getItem('loggedInId');
+  if (currentId && users[currentId]) {
+    const userName = users[currentId].name;
+    const greetingEl = document.querySelector('.user-greeting');
+    if (greetingEl) greetingEl.textContent = `${userName}님`;
+  }
+  const logoutBtn = document.querySelector('.logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('loggedInId');
+      alert('로그아웃 되었습니다.');
+      window.location.href = 'Main.html';
+    });
+  }
+});
+
+// 작성 페이지 이동
+function goToWritePage() {
+  const selectedDate = localStorage.getItem("selectedDate");
+  if (selectedDate) {
+    const [month, day] = selectedDate.split(" - ");
+    const formattedMonth = String(month).padStart(2, '0');
+    const formattedDay = String(day).padStart(2, '0');
+    const key = `memo_2025-${formattedMonth}-${formattedDay}`;
+    localStorage.setItem("editKey", key);
+    window.location.href = `Write.html`;
+  } else {
+    alert("날짜를 먼저 선택하세요.");
+  }
+};
+</script>
+</body>
+</html>

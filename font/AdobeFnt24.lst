@@ -1,0 +1,58 @@
+%!Adobe-FontList 1.24
+%Locale:0x412
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:BazziRegular
+FamilyName:Bazzi
+StyleName:Regular
+FullName:Bazzi
+MenuName:배찌체
+StyleBits:0
+FamilyNameNative:배찌체
+StyleNameNative:Regular
+FullNameNative:배찌체
+WritingScript:Korean
+OutlineFileName:C:\Users\dpazm\Desktop\24730058_김혜정\Font\Bazzi.ttf
+DataFormat:sfntData
+hasSVG:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:1353752
+FileModTime:1749522024
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Bazzi
+NameArray:3,Mac,4,배찌체
+NameArray:0,Win,1,Bazzi
+NameArray:0,Win,16,Bazzi
+NameArray:3,Win,1,배찌체
+NameArray:3,Win,16,배찌체
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:CooperBlack
+FamilyName:Cooper Black
+StyleName:Regular
+FullName:Cooper Black
+MenuName:Cooper Black
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\dpazm\Desktop\24730058_김혜정\Font\cooper-black.TTF
+DataFormat:sfntData
+hasSVG:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:80388
+FileModTime:1749441786
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Cooper Black
+NameArray:0,Win,1,Cooper Black
+%EndFont
+

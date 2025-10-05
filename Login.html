@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인</title>
+  <link rel="icon" href="Favicon.png" type="image/png">
+  <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+<header>
+  <a href="Main.html">
+      <img src="home.png" class="home-link">
+  </a>
+</header>
+<main class="main-wrapper">
+  <h2>Onullog</h2>
+  <div class="login-box">
+    <input type="text" id="userId" placeholder="아이디 입력" />
+    <button id="loginBtn">login</button>
+  </div>
+
+  <div class="join-link">
+    계정이 없다면? <a href="Join.html">회원가입</a>
+  </div>
+</main>
+<script>
+  const loginBtn = document.getElementById('loginBtn');
+  
+
+  loginBtn.addEventListener('click', () => {
+    const id = document.getElementById('userId').value.trim(); 
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+
+    if (!id) {
+      alert('아이디를 입력해주세요.');
+      return;
+    }
+
+    if (!users[id]) {
+      alert('존재하지 않는 아이디입니다.');
+      return;
+    }
+
+    // 로그인 성공
+    localStorage.setItem('loggedInId', id);
+    localStorage.setItem('isLoggedIn', 'true'); // ✅ 로그인 상태 저장
+    window.location.href = 'planner.html';
+
+  });
+
+  
+</script>
+</body>
+</html>

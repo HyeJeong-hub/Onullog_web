@@ -1,0 +1,265 @@
+@font-face {
+  font-family: 'Cooper Black';
+  src: url('font/cooper-black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-image: url("main_bgimg.png");
+  background-size: cover;
+  background-position: left top;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+}
+
+.logo-img {
+  height: 40px; 
+  object-fit: contain;
+}
+
+.auth a {
+  color: #000;
+  text-decoration: none;
+  font-size: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.main-wrapper {
+  flex: 1;
+  padding: 100px 20px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-content {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 20px 160px;
+}
+
+.main-box {
+  display: inline-block;
+  text-align: right;
+}
+
+.main-title {
+  color: #fff;
+  text-align: center;
+  font-size: 10vw;
+  font-family: 'Cooper Black', serif, sans-serif;
+  margin-bottom: 0;
+}
+
+.sub_text {
+  text-align: right;
+  font-size: 20px;
+  margin: 30px 0 0 0;
+  max-width: 650px;
+  
+}
+
+a#diary-link {
+  text-decoration: none;
+  color: #fff; 
+  cursor: pointer; 
+}
+
+footer {
+  background-color: #111;
+  color: #fff;
+  padding: 10px 150px 10px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+#add {
+  color: #888;
+  text-align: left;
+  margin-top: 0;
+}
+
+#add strong {
+  color: #fff;
+  text-align: left;
+}
+
+.insStr {
+  font-size: 30px;
+}
+.youStr {
+  font-size: 30px;
+}
+
+footer h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0px;
+  font-weight: bold;
+}
+
+footer a strong {
+  margin-left: 6px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+footer p {
+  margin-bottom: 20px;
+}
+
+.ft_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 70%;
+  flex-direction: column; 
+}
+
+.ft_sns {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 35%;
+  flex-direction: column; 
+}
+
+.ft_contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 45%;
+  flex-direction: column; 
+}
+
+#ft .ft_inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#ft .ft_inner  > div {
+  margin-right: 10px;
+}
+
+#ft .ft_inner > div:last-child {
+  margin-right: 0;
+}
+
+#copyTel,
+#copyMail {
+  font-size: 30px;
+  font-weight: bold;
+  margin-right: 8px;
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.copy_icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+footer > p {
+  text-align: center;
+  margin: 0px;
+  font-size: 14px;
+  color: #888;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 1024px) {
+  body {
+    background-image: url("main_bgimg_small.png");
+  }
+  .main-wrapper {
+    padding-top: 130px;
+    padding-bottom: 100px;
+  }
+  footer {
+    padding: 0px 30px 0px;
+  }
+  .ft_wrap {
+    width: 50%;
+  }
+  footer h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+  #ft .ft_inner {
+    padding-bottom: 10px;
+  }
+  .ft_sns {
+    width: 30%;
+  }
+  .ft_contact {
+    width: 35%;
+  }
+}
+
+
+@media (min-width: 1920px) {
+  .main-wrapper {
+    padding-top: 180px;
+    margin-bottom: 170px;
+  }
+  .main-content {
+    padding: 10px 20px 160px;
+  }
+  .ft_wrap {
+    width: 65%;
+  }
+  footer {
+    padding: 30px 300px 30px;
+  }
+  .ft_contact {
+    width: 50%;
+  }
+  #ft .ft_inner {
+    max-width: 1320px;
+  }
+}

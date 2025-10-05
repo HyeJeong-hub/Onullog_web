@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>오늘로그</title>
+  <link rel="icon" href="Favicon.png" type="image/png">
+  <link rel="stylesheet" href="style_main.css">
+</head>
+<body>
+<header class="header">
+    <div class="logo"><a href="index.html">
+      <img src="home.png" class="logo-img">
+    </a></div>
+  <nav class="auth"><a href="login.html">Login</a></nav>
+</header>
+<main class="main-wrapper">
+  <div class="main-content">
+    <div class="main-box">
+      <h1 class="main-title">Onullog</h1>
+       <p class="sub-text">
+        <a href="#" id="diary-link">다이어리 작성하러 가기 →</a>
+      </p>
+    </div>
+  </div>
+</main>
+<footer id="ft">
+  <div class="ft_inner">
+    <div class="ft_wrap">
+      <h3>About us</h3>
+      <p id="add">
+        <strong>오늘로그</strong><br>
+        서울시 중구 소파로 2길 10<br>
+        숭의여자대학교 725호
+      </p>
+    </div>
+    <div class="ft_sns">
+      <h3>Follow us</h3>
+      <a href="https://www.instagram.com/sewu_sw?igsh=bW9iOXNiaWhvdGp3" target="_blank" class="insStr">instagram <strong>↗</strong></a>
+      <a href="https://www.youtube.com/@soongeuiwomensuniversity-1903" target="_blank" class="youStr">youtube <strong>↗</strong></a>
+    </div>
+    <div class="ft_contact">
+      <h3>Contact us</h3>
+      <span id="copyTel">02.3708.9000
+      <img src="btn_copy.png" alt="전화번호 복사" id="copyTelBtn" style="cursor: pointer; width: 20px;"></span>
+      <span id="copyMail">24730058@g.sewu.ac.kr
+      <img src="btn_copy.png" alt="이메일 복사" id="copyMailBtn" style="cursor: pointer; width: 20px;"></span>
+    </div>
+  </div>
+  <p>Copyright © Onullog All rights reserved.</p>
+</footer>
+</body>
+<script>
+  function adjustLayout() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const title = document.querySelector('.main-title');
+    const subText = document.querySelector('.sub-text');
+    const main = document.querySelector('.main-content');
+    const sns1Str = document.querySelector('.insStr');
+    const sns2Str = document.querySelector('.youStr');
+    const tel = document.querySelector('#copyTel');
+    const mail = document.querySelector('#copyMail');
+
+    main.style.left = (width / 2 - main.offsetWidth / 2) + 'px';
+    main.style.top = (height / 2 - main.offsetHeight / 2) + 'px';
+
+    if (width <= 1024) {
+      title.style.fontSize = '100px';
+      subText.style.fontSize = '18px';
+      sns1Str.style.fontSize = '20px';
+      sns2Str.style.fontSize = '20px';
+      tel.style.fontSize = '20px';
+      mail.style.fontSize = '20px';
+    } else if (width <= 1536) {
+      title.style.fontSize = '150px';
+      subText.style.fontSize = '20px';
+      sns1Str.style.fontSize = '25px';
+      sns2Str.style.fontSize = '25px';
+      tel.style.fontSize = '25px';
+      mail.style.fontSize = '25px';
+    } else {
+      title.style.fontSize = '180px';
+      subText.style.fontSize = '23px';
+      sns1Str.style.fontSize = '30px';
+      sns2Str.style.fontSize = '30px';
+      tel.style.fontSize = '30px';
+      mail.style.fontSize = '30px';
+    }
+  }
+
+  window.addEventListener('load', () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const diaryLink = document.getElementById('diary-link');
+    if (diaryLink) {
+      diaryLink.href = isLoggedIn ? 'Planner.html' : 'Login.html';
+    }
+
+    adjustLayout();
+  });
+
+  window.addEventListener('resize', adjustLayout);
+
+  document.getElementById("copyTelBtn").addEventListener("click", function () {
+    const text = document.getElementById("copyTel").textContent.trim();
+    navigator.clipboard.writeText(text)
+      .then(() => alert("전화번호가 복사되었습니다!"));
+  });
+
+  document.getElementById("copyMailBtn").addEventListener("click", function () {
+    const text = document.getElementById("copyMail").textContent.trim();
+    navigator.clipboard.writeText(text)
+      .then(() => alert("이메일이 복사되었습니다!"));
+  });
+</script>
+</html>
